@@ -21,9 +21,9 @@ public class ElevatorTimeForInOrderTravelAsIsWithParse
 	
 	// This the main method
 	public static void main(String[] args)
-	{		
-		Scanner sc = null;
-		
+	{	
+		printDataEntryInstructions();
+		Scanner sc = null;		
 		try 
 		{
 			sc = new Scanner(System.in);
@@ -35,7 +35,7 @@ public class ElevatorTimeForInOrderTravelAsIsWithParse
 			{
 				try
 				{
-					System.out.print("Enter the list of floors to visit, e.g. elevator start=12 floor=2,9,1,32 ");
+					System.out.print("Enter the list of floors to visit, e.g. elevator start=12 floor=2,9,1,32 :");
 					String userSingleInput = sc.nextLine();
 					
 					userSingleInput = userSingleInput.trim();
@@ -71,7 +71,6 @@ public class ElevatorTimeForInOrderTravelAsIsWithParse
 			 }
 			
 			 System.out.print("total travel time, floors visited in order: " +travelTime + " " + floorsToVisit.stream().map(String :: valueOf).collect(Collectors.joining(",")));
-
 		}
 		catch(Exception e)
 		{
@@ -83,6 +82,15 @@ public class ElevatorTimeForInOrderTravelAsIsWithParse
 				sc.close();
 			}
 		}
+	}
+	
+	private static void printDataEntryInstructions()
+	{
+		System.out.println("*******Enter Data in the below Format***********");
+		System.out.println("elevator start=12 floor=2,9,1,32");
+		System.out.println("*******************************************");
+		System.out.println("*******************************************");
+		
 	}
 }
 		

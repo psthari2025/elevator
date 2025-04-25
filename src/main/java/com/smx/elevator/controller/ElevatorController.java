@@ -33,8 +33,8 @@ public class ElevatorController {
 	}
 	
 	@PostMapping("/compute")
-	public ElevatorDTO computeElevatorTravelTime(@RequestBody ElevatorDTO elevatorDTO) {
-		// TODO Auto-generated method stub
+	public ElevatorDTO computeElevatorTravelTime(@RequestBody ElevatorDTO elevatorDTO)
+	{	
 		return elevatorService.computeElevatorTravel(elevatorDTO);
 	}
 

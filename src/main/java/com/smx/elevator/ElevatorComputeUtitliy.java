@@ -30,7 +30,7 @@ public class ElevatorComputeUtitliy
 		{
 	
 		     int startingFloor =  elevatorDto.getStartingFloor();
-		     List<Integer> floorsToVisit =elevatorDto.getFloorstVisitRequest();
+		     List<Integer> floorsToVisit = new ArrayList(elevatorDto.getFloorstVisitRequest());
 		     floorsToVisit.add(0, startingFloor);
 		     String direction = elevatorDto.getTravelDirection();	     
 		     direction = direction.toUpperCase();
@@ -39,7 +39,7 @@ public class ElevatorComputeUtitliy
 		     {
 		    	 
 		     	 elevatorDto.addMessage("Going Floors as entered");
-		     	 computeTravelTimeAsEntered(elevatorDto.getFloorstVisitRequest(), elevatorDto);
+		     	 computeTravelTimeAsEntered(floorsToVisit, elevatorDto);
 		         return elevatorDto;
 		     }
 				

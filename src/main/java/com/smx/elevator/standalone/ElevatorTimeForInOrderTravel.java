@@ -21,9 +21,9 @@ public class ElevatorTimeForInOrderTravel
 	
 	// This the main method
 	public static void main(String[] args)
-	{		
-		Scanner sc = null;
-		
+	{
+		printDataEntryInstructions();
+		Scanner sc = null;		
 		try 
 		{
 			sc = new Scanner(System.in);
@@ -35,7 +35,7 @@ public class ElevatorTimeForInOrderTravel
 				try
 				{
 					// Read a string
-				    System.out.print("Enter the starting floor ");
+				    System.out.print("Enter the starting floor: ");
 				    int startingFloor =  Integer.parseInt(sc.nextLine());	     
 			
 				     // Read an integer
@@ -56,8 +56,6 @@ public class ElevatorTimeForInOrderTravel
 				}
 				
 			}
-		 
-				
 			
 			 int travelTime =0;
 			 for( int i= 0; i < floorsToVisit.size()-1 ; i++)
@@ -71,8 +69,7 @@ public class ElevatorTimeForInOrderTravel
 				 }				
 			 }
 			
-			 System.out.print("total travel time, floors visited in order: " +travelTime + " " + floorsToVisit.stream().map(String :: valueOf).collect(Collectors.joining(",")));
-
+			 System.out.println("total travel time, floors visited in order: " +travelTime + " " + floorsToVisit.stream().map(String :: valueOf).collect(Collectors.joining(",")));
 		}
 		catch(Exception e)
 		{
@@ -84,6 +81,17 @@ public class ElevatorTimeForInOrderTravel
 				sc.close();
 			}
 		}
+	}
+
+
+	private static void printDataEntryInstructions()
+	{
+		System.out.println("*******Enter Data in the below Format***********");
+		System.out.println("Enter the starting floor 12");
+		System.out.println("Enter floors you want to visit: 2,9,1,32");
+		System.out.println("*******************************************");
+		System.out.println("*******************************************");
+		
 	}
 }
 		
