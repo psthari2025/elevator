@@ -1,4 +1,6 @@
 Elevator v1.0 = ElevatorTimeForInOrderTravel
+
+**Assumption : 10 seconds travel per each floor is set
 		
 		
 *******Enter Data in the below Format*******
@@ -17,6 +19,8 @@ ElevatorTimeForInOrderTravel.cmd
 
 Elevator v1.1 = ElevatorTimeForInOrderTravelAsIs
 		
+
+**Assumption : 10 seconds travel per each floor is set
 		
 *******Enter Data in the below Format*******
 Enter floors you want to visit: 12,2,9,1,32
@@ -34,7 +38,9 @@ ElevatorTimeForInOrderTravelAsIs.cmd
 
 
 Elevator v1.3 = ElevatorTimeForInOrderTravelAsIsWithParse
-		
+
+
+**Assumption : 10 seconds travel per each floor is set		
 		
 *******Enter Data in the below Format*******
 elevator start=12 floor=2,9,1,32
@@ -53,6 +59,9 @@ ElevatorTimeForInOrderTravelAsIsWithParse.cmd
 
 
 Elevator v1.4 = ElevatorTestForAllUseCases
+
+
+**Assumption : 10 seconds travel per each floor is set
 
  * This class computes the travel time for the floors visited through the elevator for the below combinations
  * 1. UP - go up first	from the starting floor
