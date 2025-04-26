@@ -49,3 +49,31 @@ ElevatorTimeForInOrderTravelAsIsWithParse.cmd
 
 ============================================================================
 ============================================================================
+
+
+
+Elevator v1.4 = ElevatorTestForAllUseCases
+
+ * This class computes the travel time for the floors visited through the elevator for the below combinations
+ * 1. UP - go up first	from the starting floor
+ * 2. DOWN - go down first from the starting floor
+ * 3. SAME - go through the floors as entered	
+		
+		
+*******Enter Data in the below Format*******
+Enter the starting floor: 12
+Enter the list of floors to visit: 10,19,5,3
+Type Same, if you want to go through the floors as entered or UP or DOWN to go up or down first: up
+*******************************************
+*******************************************
+
+Executables :
+
+java -jar java -jar ElevatorTimeForCompleteUseCases.jar
+
+
+============================================================================
+============================================================================
+
+
+
