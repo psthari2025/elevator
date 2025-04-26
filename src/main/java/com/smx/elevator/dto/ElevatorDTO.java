@@ -80,7 +80,6 @@ public class ElevatorDTO
 		this.messages.add(message);
 	}
 	
-	
 
 	@Override
 	public String toString() {

@@ -119,7 +119,7 @@ public class ElevatorComputeUtitliy
 	}
 
 	private static void travelUp(List<Integer> floorsToVisit, int startingFloorIndex, ElevatorDTO elevatorDto) {
-		int travelTime = 0;
+		int travelTime = elevatorDto.getTotalTravelTime();
 		
 		for (int i = startingFloorIndex ; i < floorsToVisit.size()-1; i++)
 		{
@@ -175,7 +175,7 @@ public class ElevatorComputeUtitliy
 	
 	
 	private static void travelDown(List<Integer> floorsToVisit, int startingFloorIndex, ElevatorDTO elevatorDto) {
-		int travelTime = 0;
+		int travelTime = elevatorDto.getTotalTravelTime();
 		
 		for (int i = startingFloorIndex ; i > 0; i--) 
 		{

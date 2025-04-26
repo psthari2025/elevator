@@ -12,7 +12,10 @@ import java.util.stream.Collectors;
 
 /**
  * @author kolli
- * This class computes the travel time for the floors visited through the elevator
+ * This class computes the travel time for the floors visited through the elevator for the below combinations
+ * 1. UP - go up first	from the starting floor
+ * 2. DOWN - go down first from the starting floor
+ * 3. SAME - go through the floors as entered	
  */
 public class ElevatorTest
 {
@@ -54,15 +57,26 @@ public class ElevatorTest
 				
 			}
 			
-			System.out.print("Type Same, if you want to go through the floors as entered:");
+			System.out.print("Type Same, if you want to go through the floors as entered or UP or DOWN to go up or down first: ");
             String direction = sc.nextLine();
+            direction = direction.toUpperCase();
+            
+			while (!("UP".equalsIgnoreCase(direction) || "DOWN".equalsIgnoreCase(direction)
+					|| "U".equalsIgnoreCase(direction) || "D".equalsIgnoreCase(direction)
+					|| "SAME".equalsIgnoreCase(direction)))
+			{
+				System.out.print("Invalid direction, Enter the direction (up/down), you want to go first");
+				direction = sc.nextLine();
+			}
+
+			FloorTravel floorTravel = new FloorTravel();
 			
 		     if ("SAME".equalsIgnoreCase(direction))
 		     {
 		    	 
 		    	 System.out.println("Going Floors as entered");
-		     	 int travelTime =computeTravelTimeAsEntered(floorsToVisit);
-		     	 System.out.print("total travel time, floors visited in order: " +travelTime + " " + floorsToVisit.stream().map(String :: valueOf).collect(Collectors.joining(",")));
+		     	 floorTravel =computeTravelTimeAsEntered(floorsToVisit, floorTravel);
+		     	 System.out.print("total travel time, floors visited in order: " +floorTravel.getTravelTime() + " " + floorsToVisit.stream().map(String :: valueOf).collect(Collectors.joining(",")));
 		         return;
 		     }				
 
@@ -79,44 +93,35 @@ public class ElevatorTest
 			if(startingFloorIndex == 0)
 			{
 				System.out.println("Going up");
-				travelUp(floorsToVisit, startingFloorIndex,0);				
+				travelUp(floorsToVisit, startingFloorIndex,floorTravel);				
 				
 			}
 			// if the starting floor is the top floor, then go down
 			else if (startingFloorIndex == floorsToVisit.size() - 1)
 			{
 				System.out.println("Going down");
-				travelDown(floorsToVisit, startingFloorIndex,0);
+				travelDown(floorsToVisit, startingFloorIndex,floorTravel);
 			} else 
 			{
-				// if the starting floor is in the middle, then check the direction
-				 System.out.println("Going up/down (U/D)");
-			     System.out.print("Enter the direction (up/down), you want to go first");
-			     String upDownDirection = sc.nextLine();
+
 			     
-			     while(!"UP".equalsIgnoreCase(upDownDirection) && !"DOWN".equalsIgnoreCase(upDownDirection) && !"U".equalsIgnoreCase(upDownDirection) && !"D".equalsIgnoreCase(upDownDirection))
-		         {
-		        	 System.out.print("Invalid direction, Enter the direction (up/down), you want to go first");
-		        	 upDownDirection = sc.nextLine();
-		         }
-			     
-			     upDownDirection = upDownDirection.toUpperCase();
-			     
-			     if ("UP".equalsIgnoreCase(upDownDirection) || "U".equalsIgnoreCase(upDownDirection))
+			     if ("UP".equalsIgnoreCase(direction) || "U".equalsIgnoreCase(direction))
 			     {
 			     		System.out.println("Going up first");
-			     		List<Integer> floorsIntCopy = new ArrayList<>(floorsToVisit.subList(startingFloorIndex, floorsToVisit.size()));
-			     		int travelTime =travelUp(floorsIntCopy, 0, 0);
-			     		int finalTravelTime =travelDown(floorsToVisit, floorsToVisit.size()-1,travelTime);
-			     		System.out.println("Total Travel time: " + finalTravelTime + " seconds");	
+			     		List<Integer> floorsIntCopy = new ArrayList<>(floorsToVisit.subList(startingFloorIndex, floorsToVisit.size())); 
+			     		floorTravel =travelUp(floorsIntCopy, 0, floorTravel);
+			     		floorTravel =travelDown(floorsToVisit, floorsToVisit.size()-1,floorTravel);
+			     		System.out.println("Total Travel time: " + floorTravel.getTravelTime() + " seconds");	
+			     		System.out.print(floorTravel.getFloorNumberVisited().stream().map(String :: valueOf).collect(Collectors.joining(",")));
 			     } 
 			     else
 			     {
 			     		System.out.println("Going down first");	     		
 			     		List<Integer> floorsToGoDown = new ArrayList<>(floorsToVisit.subList(0, startingFloorIndex+1));
-			     		int travelTime= travelDown(floorsToGoDown, startingFloorIndex, 0);
-			     		int finalTravelTime = travelUp(floorsToVisit, 0, travelTime);
-			     		System.out.println("Total Travel time: " + finalTravelTime + " seconds");	
+			     		floorTravel= travelDown(floorsToGoDown, startingFloorIndex, floorTravel);
+			     		floorTravel = travelUp(floorsToVisit, 0, floorTravel);
+			     		System.out.println("Total Travel time: " + floorTravel.getTravelTime()+ " seconds");
+			     		System.out.print(floorTravel.getFloorNumberVisited().stream().map(String :: valueOf).collect(Collectors.joining(",")));
 			     }
 			}
 	    }
@@ -133,12 +138,51 @@ public class ElevatorTest
 
 	}
 	
-	private static int travelUp(List<Integer> floorsToVisit, int startingFloorIndex, int travelTimeSeed)
+	public static class FloorTravel
 	{
-		int travelTime = travelTimeSeed;
+		List<Integer>floorNumberVisited = new ArrayList<Integer>();
+		int travelTime;
+
+		public FloorTravel() 
+		{			
+		
+		}
+		
+		public int getTravelTime()
+        {
+            return travelTime;
+        }
+		
+		public void setTravelTime(int travelTime) {
+			this.travelTime = travelTime;
+		}
+		
+		public List<Integer> getFloorNumberVisited() {
+			return floorNumberVisited;
+		}
+		
+		public void setFloorNumberVisited(List<Integer> floorNumber) {
+			this.floorNumberVisited = floorNumber;
+		}
+		
+		public void addFloorNumberVisited(int floorNumber) {
+			this.floorNumberVisited.add(floorNumber);
+		}
+
+
+	}
+	
+	private static FloorTravel travelUp(List<Integer> floorsToVisit, int startingFloorIndex, FloorTravel floorTravel)
+	{
+		int travelTime = floorTravel.getTravelTime();
 		
 		for (int i = startingFloorIndex ; i < floorsToVisit.size()-1; i++)
 		{
+			if(!floorTravel.getFloorNumberVisited().contains(floorsToVisit.get(i)))
+			{
+				floorTravel.addFloorNumberVisited(floorsToVisit.get(i));				
+			}
+			
 			System.out.println("Going up to floor: " + floorsToVisit.get(i+1));
 			
 			
@@ -152,7 +196,13 @@ public class ElevatorTest
 			{				
 				if(j+1 ==floorsToVisit.get(i+1))
 				{
-					System.out.println("Ding Dong, time to exit your floor " + (j+1));
+					if(!floorTravel.getFloorNumberVisited().contains(floorsToVisit.get(i+1)))
+					{
+						floorTravel.addFloorNumberVisited(floorsToVisit.get(i+1));
+						System.out.println("Ding Dong, time to exit your floor " + (j+1));
+						
+					}
+				
 					
 				}
 				else
@@ -168,17 +218,22 @@ public class ElevatorTest
 
 		}
 		System.out.println("Travel time: " + travelTime + " seconds");
-		return travelTime;
+		floorTravel.setTravelTime(travelTime);
+		return floorTravel;
 		
 	}
 	
 	
-	private static int travelDown(List<Integer> floorsToVisit, int startingFloorIndex, int travelTimeSeed)
+	private static FloorTravel travelDown(List<Integer> floorsToVisit, int startingFloorIndex, FloorTravel floorTravel)
 	{
-		int travelTime = travelTimeSeed;
+		int travelTime = floorTravel.getTravelTime();
 		
 		for (int i = startingFloorIndex ; i > 0; i--)
 		{
+			if(!floorTravel.getFloorNumberVisited().contains(floorsToVisit.get(i)))
+			{
+				floorTravel.addFloorNumberVisited(floorsToVisit.get(i));				
+			} 
 			System.out.println("Going down to floor: " + floorsToVisit.get(i-1));
 			int floorsToTravel = Math.abs(floorsToVisit.get(i)-floorsToVisit.get(i-1));
 			
@@ -190,7 +245,12 @@ public class ElevatorTest
 			{				
 				if(j-1 ==floorsToVisit.get(i-1))
 				{
-					System.out.println("Ding Dong, time to exit your floor " + (j-1));					
+					if(!floorTravel.getFloorNumberVisited().contains(floorsToVisit.get(i-1)))
+					{
+						floorTravel.addFloorNumberVisited(floorsToVisit.get(i-1));
+						System.out.println("Ding Dong, time to exit your floor " + (j-1));					
+						
+					}
 				}
 				else
 				{
@@ -204,12 +264,13 @@ public class ElevatorTest
 		}	
 		
 		System.out.println("Travel time: " + travelTime + " seconds");	
-		return travelTime;
+		floorTravel.setTravelTime(travelTime);
+		return floorTravel;
 	}
 	
-	private static int computeTravelTimeAsEntered(List<Integer> floorstVisitRequest) 
+	private static FloorTravel computeTravelTimeAsEntered(List<Integer> floorstVisitRequest, FloorTravel floorTravel) 
 	{
-		 int travelTime =0;
+		 int travelTime =floorTravel.getTravelTime();
 		 for( int i= 0; i < floorstVisitRequest.size()-1 ; i++)
 		 {
 			 int numFloors= Math.abs(floorstVisitRequest.get(i)-floorstVisitRequest.get(i+1));
@@ -220,7 +281,8 @@ public class ElevatorTest
 				numFloors--;					
 			 }				
 		 }
-        return travelTime;
+			floorTravel.setTravelTime(travelTime);
+			return floorTravel;
 		
 	}
 	
