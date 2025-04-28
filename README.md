@@ -1,6 +1,8 @@
 Elevator v1.0 = ElevatorTimeForInOrderTravel
 
 **Assumption : 10 seconds travel per each floor is set
+
+Test Cases : refer to elevatorTestCases.xlsx
 		
 		
 *******Enter Data in the below Format*******
